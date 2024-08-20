@@ -43,3 +43,9 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
     --set nfs.path=/exported/path
 ```
 replace the value of **"nfs.server"** with your NFS server address and **"nfs.path"** with your nfs directory (in this case is /mnt/nfs_share/)
+
+If you want it to make this Storage Class as your default storage class use the below command.
+
+```bash
+kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
