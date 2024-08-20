@@ -37,7 +37,7 @@ sudo apt install nfs-common
 Now, you must install NFS Provisioner inside your kubernetes cluster to automate the procedures of dynamic provisioning.
 ```bash
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-
+helm repo update
 helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
     --set nfs.server=x.x.x.x \
     --set nfs.path=/exported/path
