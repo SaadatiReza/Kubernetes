@@ -16,4 +16,27 @@ Next you will continue by creating the common resources you needed for your Rook
 ``` bash
 kubectl create -f common.yaml
 ```
+In this stage, apply the 'operator.yaml' manifest inside your cluster. Before applying it, have a look and modify necessary items.
 
+```bash
+kubectl create -f operator.yaml
+```
+
+Make sure all the pods are in the state of 'Up & Running'.
+```bash
+kubectl get pod -n rook-ceph
+```
+
+### Creating a Ceph Cluster
+
+In the manifest examples directory, there is 'cluster.yaml' file which is responsible to create a ***Ceph*** cluster inside the kubernetes, make sure that all the values are suitable based on your env before applying it.
+
+```bash
+kubectl apply -f cluster.yaml
+```
+
+it takes a while based on your network speed and situtation untill all the pods get running.
+
+```bash
+kubectl get pod -n rook-ceph
+``` 
