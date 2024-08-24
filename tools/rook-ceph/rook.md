@@ -39,4 +39,39 @@ it takes a while based on your network speed and situtation untill all the pods 
 
 ```bash
 kubectl get pod -n rook-ceph
-``` 
+```
+
+### Adding Block Storage
+
+Before Ceph can provide storage to your cluster, you first need to create a storageclass and a cephblockpool. This will allow Kubernetes to interoperate with Rook when creating persistent volumes
+```bash
+kubectl apply -f ./csi/rbd/storageclass.yaml
+```
+
+in order to test if your storage clase (dynamic provisioning) is working properly, create a PVC inside your cluster.
+
+```bash
+vi pvc-rook-ceph-block.yaml
+```
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  storageClassName: rook-ceph-block
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+```
+Then apply your manifest in the kubernetes cluster using the command below.
+```bash
+kubectl apply -f pvc-rook-ceph-block.yaml
+```
+Make sure that your PVC is bound
+
+```bash
+kubectl get pvc
+```
