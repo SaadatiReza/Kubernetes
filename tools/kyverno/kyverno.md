@@ -11,7 +11,7 @@ Scan the new repository for charts.
 helm repo update
 helm install kyverno-policies kyverno/kyverno-policies -n kyverno
 ```
-this tutorial is suitable for setting up the kyverno in a standalone environment, if you wish to set it up in your production environemnt, consider using HA.
+This tutorial is suitable for setting up the kyverno in a standalone environment, if you wish to set it up in your production environemnt, consider using HA.
 
 ```bash
 helm install kyverno kyverno/kyverno -n kyverno --create-namespace \
