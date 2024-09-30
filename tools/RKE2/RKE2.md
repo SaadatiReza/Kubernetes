@@ -1,31 +1,37 @@
-#Install RKE2
+# Install RKE2
 firstly, you should execute the below script install necesssary services.
 
 ```bash
 curl -sfL https://get.rke2.io | sh -
 ```
-then enable the rke2 service with the below command.
+Then, enable the RKE2 service with the following command:
+
 ```bash
 systemctl enable rke2-server.service
 ```
 
-if you prefer continue set up and runn your rke2 cluster with the default value, skip the below steps.
+If you prefer to continue setting up and running your RKE2 cluster with the default configuration, you can skip the following steps.
+
+Otherwise, create a configuration directory and file:
 ```bash
 
 mkdir -p /etc/rancher/rke2/
 vim /etc/rancher/rke2/config.yaml
-#two lines from begining are not necessary for the initialization of your cluster and they are useful for joining other server(including servers and agents).
-token: #you can find the token once the first server has been initialized successfully at the following location "/var/lib/rancher/rke2/server/node-token"
-server: https://192.168.56.11:9345 #this is the address of your first master node.
-#keep in mind that the sans are necessary in the kubernetes communication, try to add all of your nodes address into this part.
+The first two lines in the file are not required for initializing your cluster. They are useful for joining other nodes (servers or agents).
+token: # You can find the token after the first server initializes successfully at this location: "/var/lib/rancher/rke2/server/node-token"
+server: https://192.168.56.11:9345 # This is the address of your first master node.
+
+# Keep in mind that the SANs are necessary for Kubernetes communication. Add the addresses of all your nodes here.
 tls-san:
   - 192.168.56.20
   - 192.168.56.11
   - 192.168.56.12
   - 192.168.56.13
-#if you're using multiple network adapter and prefer to use one of them as your default network adapter try to define its address in this place.
+
+# If you are using multiple network adapters and want to set a specific one as your default, define its IP address here.
 node-ip: 192.168.56.11
-#RKE2 uses CANAL CNI for communication of your pod by default, if you want to change your default cni try to define below key value.
+
+# RKE2 uses CANAL CNI for pod communication by default. If you want to change the default CNI, specify the key and value below.
 cni: calico
 ```
 it's time to RUN your cluster through starting the rke2 service with the below command
@@ -34,6 +40,5 @@ systemctl start rke2-server.service
 #depending on your system hardware and network internet connection it takes a time be be loaded successfully.
 journalctl -u rke2-server -f
 ```
-
-
+Repeat this process for each RKE2 server you have, to join them to the existing cluster
 
