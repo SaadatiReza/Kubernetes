@@ -1,5 +1,5 @@
 # Install RKE2
-firstly, you should execute the below script install necesssary services.
+First, execute the script below to install the necessary services:
 
 ```bash
 curl -sfL https://get.rke2.io | sh -
@@ -17,7 +17,7 @@ Otherwise, create a configuration directory and file:
 
 mkdir -p /etc/rancher/rke2/
 vim /etc/rancher/rke2/config.yaml
-The first two lines in the file are not required for initializing your cluster. They are useful for joining other nodes (servers or agents).
+#The first two lines in the file are not required for initializing your cluster. They are useful for joining other nodes (servers or agents).
 token: # You can find the token after the first server initializes successfully at this location: "/var/lib/rancher/rke2/server/node-token"
 server: https://192.168.56.11:9345 # This is the address of your first master node.
 
@@ -41,4 +41,31 @@ systemctl start rke2-server.service
 journalctl -u rke2-server -f
 ```
 Repeat this process for each RKE2 server you have, to join them to the existing cluster
+
+
+### Join your Agent
+
+Similar to the steps for creating the cluster, we need to install the necessary packages and services on the agents using the script below:
+
+```bash
+curl -sfL https://get.rke2.io | INSTALL_RKE2_TYPE="agent" sh -
+```
+
+Unlike the server node, where having a config file is optional, for joining agents you **must** create a config file and specify the server address and token.
+
+```bash
+mkdir -p /etc/rancher/rke2/
+vim /etc/rancher/rke2/config.yaml
+# Place the configuration below in your config file
+server: https://<server>:9345
+token: <token from server node>
+```
+
+### Start the Agent Service
+
+To start the agent service, run the following command:
+
+```bash
+systemctl start rke2-agent.service
+```
 
