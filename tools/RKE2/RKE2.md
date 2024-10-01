@@ -68,4 +68,5 @@ To start the agent service, run the following command:
 ```bash
 systemctl start rke2-agent.service
 ```
-
+# CIS Mode
+If you prefer to set up your cluster in CIS mode, you need to add profile: cis to your configuration. However, there are some prerequisites for OS hardening, and without meeting them, the setup may fail with an error code.
