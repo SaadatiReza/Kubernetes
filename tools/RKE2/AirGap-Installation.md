@@ -24,3 +24,15 @@ systemctl start rke2-server.service
 journalctl -u rke2-server -f
 ```
 
+# Upgrade your cluster in AirGap environment
+Similar to what disscussed earlier, you must download the necessary files (new version) within your servers. 
+then execute the below command.
+```bash
+# "INSTALL_RKE2_ARTIFACT_PATH" is the location that new files are located.
+INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts-upgrade INSTALL_RKE2_VERSION=v1.30.5+rke2rN bash -x install.sh
+```
+In addition, for upgrading your agents, act as the previous command just keep in mind that you must add the INSTALL_RKE2_TYPE="agent" the the previous command.
+```bash
+# "INSTALL_RKE2_ARTIFACT_PATH" is the location that new files are located.
+INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts-upgrade INSTALL_RKE2_VERSION=v1.30.5+rke2rN INSTALL_RKE2_TYPE="agent" bash -x install.sh
+```
