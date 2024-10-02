@@ -11,4 +11,16 @@ curl -OLs https://github.com/rancher/rke2/releases/download/v1.26.10%2Brke2r2/sh
 curl -sfL https://get.rke2.io --output install.sh
 ```
 consider chaning the address regarding the version that you're looking to install.
-bash```INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts bash -x install.sh```
+```INSTALL_RKE2_ARTIFACT_PATH=/root/rke2-artifacts bash -x install.sh```
+Then, if you have any further configuration make sure that put them in the proper location .
+```bash
+mkdir -p /etc/rancher/rke2/
+vim /etc/rancher/rke2/config.yaml
+```
+You should enable and start the service.
+```bash
+systemctl enable rke2-server.service
+systemctl start rke2-server.service
+journalctl -u rke2-server -f
+```
+
