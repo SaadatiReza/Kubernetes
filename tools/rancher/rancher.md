@@ -45,5 +45,6 @@ There are two methodes including setting all the required policy so that podsecu
 kubectl label namespace <your-namespace> \
     pod-security.kubernetes.io/audit=privileged \
     pod-security.kubernetes.io/warn=privileged \
+    pod-security.kubernetes.io/enforce=privileged \
     --overwrite
 ```
