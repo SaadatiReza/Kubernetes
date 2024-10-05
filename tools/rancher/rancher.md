@@ -38,3 +38,12 @@ helm install rancher rancher-stable/rancher \
   --set bootstrapPassword=admin \
   --set tls=external
 ```
+
+# Setting up Rancher in Hardened RKE2
+There are two methodes including setting all the required policy so that podsecurity doesn't prevent pods from being installed and the other one is label namespace using the below command to ignore podsecurity policy.
+```bash
+kubectl label namespace <your-namespace> \
+    pod-security.kubernetes.io/audit=privileged \
+    pod-security.kubernetes.io/warn=privileged \
+    --overwrite
+```
