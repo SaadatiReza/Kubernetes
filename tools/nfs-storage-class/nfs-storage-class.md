@@ -23,6 +23,7 @@ Utilize the provided command for exporting the NFS shared directory and restart 
  ```bash
  sudo exportfs -a
  sudo systemctl restart nfs-kernel-server
+ sudo systemctl enable nfs-kernel-server
  ```
 
 
