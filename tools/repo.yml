@@ -1,0 +1,91 @@
+networks:
+  default:
+    name: nexus_net
+volumes:
+  nexus-data: {}
+  traefik-dynamic: {}
+
+services:
+  reverse-proxy:
+    restart: always
+    image: traefik:v3.1.4
+    command:
+      - --log.level=DEBUG
+      - --log.filepath=/log-file.log
+      - --log.format=json
+      - --api=true
+      - --ping=true
+      - --accesslog=true
+      - --accesslog.bufferingsize=100
+      - --api.insecure=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=web_net
+      - --entrypoints.http.address=:80
+      - --entryPoints.web.transport.respondingTimeouts.readTimeout=3600
+      - --entryPoints.name.transport.respondingTimeouts.writeTimeout=3600
+      - --entryPoints.web.transport.respondingTimeouts.idleTimeout=3600
+      - --entryPoints.name.transport.lifeCycle.requestAcceptGraceTimeout=3600
+
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-dynamic:/etc/traefik/dynamic
+    extra_hosts:
+      - "repo.sfara.ir:172.19.119.20"
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web_net"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.sfara.ir`)"
+      - "traefik.http.services.traefik-secure.loadbalancer.server.port=8080"
+        # 4GB max body for docker images - must apply to each service
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=4000000000"
+      - "traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=4000000000"
+      - "traefik.http.middlewares.limit.buffering.memResponseBodyBytes=2000000"
+      - "traefik.http.middlewares.limit.buffering.memRequestBodyBytes=2000000"
+
+  nexus:
+    image: sonatype/nexus3:3.72.0
+    container_name: nexus
+    restart: always
+    volumes:
+      - nexus-data:/nexus-data
+    environment:
+      - JAVA_OPTS="-Xms1200m -Xmx1200m"
+      - "REGISTRY_HTTP_RELATIVEURLS=true"
+    dns:
+      - "185.51.200.1"
+      - "178.22.122.101"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web_net"
+      - "traefik.http.routers.repo.entrypoints=http"
+      - "traefik.http.routers.repo.rule=Host(`repo.sfara.ir`)"
+      - "traefik.http.routers.repo.service=repo-secure"
+      - "traefik.http.services.repo-secure.loadbalancer.server.port=8081"
+      - "traefik.http.middlewares.limit.buffering.memRequestBodyBytes=3000000"
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=3000000"
+
+      - "traefik.http.routers.tab17.entrypoints=http"
+      - "traefik.http.routers.tab17.rule=Host(`tab17.sfara.ir`)"
+      - "traefik.http.routers.tab17.service=tab17-secure"
+      - "traefik.http.services.tab17-secure.loadbalancer.server.port=8084"
+      - "traefik.http.middlewares.limit.buffering.memRequestBodyBytes=3000000"
+      - "traefik.http.middlewares.limit.buffering.memRequestBodyBytes=3000000"
+
+      - "traefik.http.routers.nexusdocker.entrypoints=http"
+      - "traefik.http.routers.nexusdocker.rule=Host(`docker.sfara.ir`)"
+      - "traefik.http.routers.nexusdocker.service=nexusdocker-secure"
+      - "traefik.http.services.nexusdocker-secure.loadbalancer.server.port=8085"
+
+      # Increase timeout settings for Traefik services
+      - "traefik.http.services.repo.loadbalancer.responseForwarding.flushInterval=2000ms"
+      - "traefik.http.services.nexusdocker.loadbalancer.responseForwarding.flushInterval=2000ms"
+      - "traefik.http.services.nexusdocker2.loadbalancer.responseForwarding.flushInterval=2000ms"
+    networks:
+      - default
