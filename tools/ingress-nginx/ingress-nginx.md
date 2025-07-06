@@ -21,7 +21,7 @@ If you want to change the type of your ingress service from Loadbalancer to Node
 ### 1. Get the Current Service Definition
 Replace <service-name> with the name of your service.
 ```bash
-kubectl get svc <service-name> -o yaml > service.yaml
+kubectl get svc ingress-nginx-controller -o yaml -n ingress-nginx > service.yaml
 ```
 ### 2. Edit the Service YAML
 
@@ -36,5 +36,5 @@ spec:
 Once you've made the changes, you can apply the updated YAML configuration to the Kubernetes cluster:
 
 ```bash
-kubectl apply -f service.yaml
+kubectl apply -f service.yaml -n ingress-nginx
 ```
