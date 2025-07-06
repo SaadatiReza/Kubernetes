@@ -4,9 +4,9 @@
 At first you should deploy your project with the below command on your cluster.
 
 
-
+### **Note:** You should retrieve the latest stable version and place in the below segment to make sure that you will be installing the latest version of the application.
 ```bash
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/cloud/deploy.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/cloud/deploy.yaml --namespace ingress-nginx
 ```
 
 Now you can make sure that your ingress is up and running with the below command.
