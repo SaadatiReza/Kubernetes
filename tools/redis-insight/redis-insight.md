@@ -17,4 +17,5 @@ config.databaseManagement: true #Enable/disable database connection management
 persistence.enabled: true #Enable persistent storage for RedisInsight data
 ingress.enabled: true #Enable ingress resource for RedisInsight
 ingress.basicauth.enabled #Enable HTTP basic authentication
-ingress.basicauth.users #define username and password on which enable them to login
+ingress.basicauth.users #Configure a username and password to allow user login.
+
