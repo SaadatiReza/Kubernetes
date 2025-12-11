@@ -21,7 +21,7 @@ Download the default values file if you want to modify it before installation:
 helm show values redisinsight-secure > values.yml
 ```
 
-##3. Required Parameters to Modify
+## 3. Required Parameters to Modify
 
 Edit values.yml and configure the following parameters:
 | Key                         | Description                                        |
@@ -31,3 +31,11 @@ Edit values.yml and configure the following parameters:
 | `ingress.enabled`           | Enable Kubernetes Ingress for the RedisInsight UI. |
 | `ingress.basicauth.enabled` | Enable HTTP Basic Authentication.                  |
 | `ingress.basicauth.users`   | Username/password list in htpasswd format.         |
+
+
+## 4. Install RedisInsight Secure
+
+After updating values.yml, install the chart:
+```bash
+helm install redisinsight redisinsight-secure -f values.yml -n redisinsight --create-namespace
+```
