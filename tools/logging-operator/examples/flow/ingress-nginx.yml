@@ -1,0 +1,31 @@
+apiVersion: v1
+items:
+- apiVersion: logging.banzaicloud.io/v1beta1
+  kind: Flow
+  metadata:
+    name: ingress-flow
+    namespace: ingress
+  spec:
+    filters:
+    - parser:
+        key_name: message
+        parse:
+          expression: ^(?<remote_addr>[\d\.]+) - (?<remote_user>[^ ]+) \[(?<time_local>[^\]]+)\]
+            "(?<request>[^"]*)" (?<status>\d+) (?<body_bytes_sent>\d+) "(?<http_referer>[^"]*)"
+            "(?<http_user_agent>[^"]*)"
+          time_format: '%d/%b/%Y:%H:%M:%S %z'
+          type: regexp
+        remove_key_name_field: false
+        reserve_data: true
+    - record_transformer:
+        enable_ruby: true
+        records:
+        - http_method: ${record["request"].split(" ")[0]}
+        - endpoint: ${record["request"].split(" ")[1]}
+        - http_protocol: ${record["request"].split(" ")[2]}
+    localOutputRefs:
+    - #outputname
+    match:
+    - select:
+        labels:
+          app.kubernetes.io/name: nginx-ingress-controller

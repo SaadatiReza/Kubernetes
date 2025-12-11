@@ -1,0 +1,22 @@
+
+apiVersion: v1
+items:
+- apiVersion: logging.banzaicloud.io/v1beta1
+  kind: Output
+  metadata:
+    name: ingress-output
+    namespace: ingress
+  spec:
+    elasticsearch:
+      host: #address of elastic search host
+      index_name: #name of index, usually alias
+      password:
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: # secret name
+      port: 9200
+      scheme: http
+      ssl_verify: false
+      suppress_type_name: true
+      user: # user name
