@@ -20,3 +20,14 @@ Download the default values file if you want to modify it before installation:
 ```bash
 helm show values redisinsight-secure > values.yml
 ```
+
+##3. Required Parameters to Modify
+
+Edit values.yml and configure the following parameters:
+| Key                         | Description                                        |
+| --------------------------- | -------------------------------------------------- |
+| `config.databaseManagement` | Enable database connection management.             |
+| `persistence.enabled`       | Enable persistent data storage.                    |
+| `ingress.enabled`           | Enable Kubernetes Ingress for the RedisInsight UI. |
+| `ingress.basicauth.enabled` | Enable HTTP Basic Authentication.                  |
+| `ingress.basicauth.users`   | Username/password list in htpasswd format.         |
