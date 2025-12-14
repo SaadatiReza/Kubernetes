@@ -16,3 +16,9 @@ Necessary environment which should be considered are as follows.
 | rootPassword | #Replace it with your desired values |
 | replicas | #update this value with the number of pod |
 | persistence.size | #default is 10Gi |
+| ingress.enabled | true |
+| ingress.hosts | ["example.me"] |
+| consoleIngress.enabled | true |
+| consoleIngress.hosts | ["console.example.me"] |
+| users |  |
+
