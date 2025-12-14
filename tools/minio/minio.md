@@ -10,6 +10,8 @@ helm show values minio/minio > values.yml
 ```
 ## NOTE
 Necessary environment which should be considered are as follows.
+| Item              | In Stock | Price |
+| :---------------- | :------: | ----: |
 | rootUser | #Replace it with your desired values |
 | rootPassword | #Replace it with your desired values |
 | replicas | #update this value with the number of pod |
