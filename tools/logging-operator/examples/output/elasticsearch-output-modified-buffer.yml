@@ -9,7 +9,7 @@ spec:
       chunk_limit_size: 8m
       flush_interval: 5s
       flush_mode: interval
-      flush_thread_count: 4
+      flush_thread_count: 10
       overflow_action: block
       retry_forever: true
       total_limit_size: 10g
