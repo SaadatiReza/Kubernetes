@@ -1,0 +1,27 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Output
+metadata:
+  name: ingress-output
+  namespace: ingress-nginx
+spec:
+  elasticsearch:
+    buffer:
+      chunk_limit_size: 8m
+      flush_interval: 5s
+      flush_mode: interval
+      flush_thread_count: 4
+      overflow_action: block
+      retry_forever: true
+      total_limit_size: 10g
+    host: #ElasticAddress
+    index_name: #IndexName
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: elastic-credentials
+    port: 9200
+    scheme: http
+    ssl_verify: false
+    suppress_type_name: true
+    user: elastic
