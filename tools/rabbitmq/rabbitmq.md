@@ -1,5 +1,5 @@
 # RabbitMQ Installation with HELM
-Firstly, We should install Rabbitmq operator using the below command based on the rabbitmq official documentation.
+First, install the RabbitMQ Cluster Operator using the following command, based on the official RabbitMQ documentation:
 ```bash
  kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"
  ```
@@ -24,8 +24,7 @@ kubectl apply -f definition.yaml
 ```bash
 kubectl get all -l app.kubernetes.io/name=definition
 ```
-NOTE: modify the word "definition" with your desired cluster name, by the way, this is not a production ready cluster and try to modify the definition with better configuration.
-
+Replace the word *"definition"* with your desired cluster name. Also, be aware that this configuration is not production-ready. For production use, you should extend and modify the definition with more appropriate and robust settings.
 
 
 
