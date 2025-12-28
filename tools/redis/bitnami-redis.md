@@ -1,4 +1,4 @@
-# Install Redis using HELM chart
+# Install  Bitnami Redis using HELM chart
 First, add the bitnami repository to your system helm repository.
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
