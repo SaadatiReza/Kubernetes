@@ -16,6 +16,7 @@ spec:
         type: regexp
       remove_key_name_field: false
       reserve_data: true
+      emit_invalid_record_to_error: false
   - record_transformer:
       enable_ruby: true
       records:
@@ -28,3 +29,4 @@ spec:
   - select:
       labels:
         app.kubernetes.io/name: nginx-ingress-controller
+
